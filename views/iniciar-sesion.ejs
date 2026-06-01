@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/assets/css/login.css">
+</head>
+<body>
+    <section>
+        <div class="contenedor">
+            <div class="imagenCimarc">
+            </div>
+            <div class="formulario">
+                <form action="/iniciar-sesion" method="POST">
+                    <div>
+                        <a href="/"><img src="assets/images/Cimarc.png" alt="" style="width: 60%;"></a>
+                    </div>
+                    <br>
+                    <h2>Iniciar Sesión</h2>
+                    <div class="input-contenedor">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" name="userid" required>
+                        <label >Usuario</label>
+                    </div>
+                    <div class="input-contenedor">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="password" name="password" required>
+                        <label >Contraseña</label>
+                    </div>
+                    <div class="recordar">
+                        <label for="#">
+                            <input type="checkbox">Recordar la Contraseña
+                        </label>
+                        <a href="/contrasena">Olvidaste tu contraseña?</a>
+                    </div>
+                    <br>
+                    <div class="button">
+                        <input type="submit" class="btn btn1" value="Iniciar Sesion">
+                    </div>
+    
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

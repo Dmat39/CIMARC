@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="/assets/css/barra.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<div class="content">
+    <div class="seccion-botones">
+        <a href="/admin/mantenimientoUsu" class="boton-derecha">Regresar</a>
+    </div>
+    <br><br>
+    <div class="seccion-formulario">
+        <h1>Datos del Usuario</h1>
+        <% if (usuarios) { %>
+        <table class="table table-bordered mt-3">
+            <tbody>
+                <tr>
+                    <th>Usuario (ID)</th>
+                    <td><%= usuarios.userid %></td>
+                </tr>
+                <tr>
+                    <th>Nombre</th>
+                    <td><%= usuarios.name %></td>
+                </tr>
+                <tr>
+                    <th>Correo</th>
+                    <td><%= usuarios.email %></td>
+                </tr>
+                <tr>
+                    <th>DNI / RUC</th>
+                    <td><%= usuarios.Identity %></td>
+                </tr>
+                <tr>
+                    <th>Teléfono</th>
+                    <td><%= usuarios.telf %></td>
+                </tr>
+                <tr>
+                    <th>Rol</th>
+                    <td><%= usuarios.role %></td>
+                </tr>
+                <tr>
+                    <th>Estado</th>
+                    <td><%= usuarios.activo === 1 ? 'Activo' : 'Inactivo' %></td>
+                </tr>
+            </tbody>
+        </table>
+        <% } else { %>
+            <p class="alert alert-warning">Usuario no encontrado.</p>
+        <% } %>
+    </div>
+</div>

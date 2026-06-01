@@ -1,0 +1,47 @@
+<%- console.log(noticia)%>
+<body>
+    <div id="content">
+      <div class="blog-list style-detail mt-100">
+        <div class="container"> 
+          <div class="row flex-center">
+            <div class="col-12 col-lg-8">
+              <div class="blog-paragraph"> 
+                <div class="paragraph-heading"><a class="caption2 pt-8 pb-8 pl-16 pr-16 bg-surface bora-20 hover-button-black" href="#!"><%-noticia.categoria%></a>
+                  <div class="heading4 mt-16"><%- noticia.titulo%></div>
+                  <div class="bg-img"> <img width="800px" src="/uploads/noticias/<%=noticia.imagen%>" alt="banner"/></div>
+                  <div class="date flex-item-center gap-16 mt-16">
+                    <div class="author caption2 text-secondary">by <span class="text-on-surface"><%-noticia.user.email%> </span></div>
+                    <div class="item-date flex-item-center"><i class="ph-bold ph-calendar-blank"></i><span class="ml-4 caption2"><%- noticia.fecha%></span></div>
+                  </div>
+                </div>
+                <div>
+                  <p>
+                    <%- noticia.descripcion%>
+                  </p>
+                </div>
+
+
+              </div>
+              <div class="blog-more-infor mt-32">
+                <div class="infor-above flex-between"> 
+                  <div class="tags-cloud-block flex-item-center gap-12">
+                    <div class="body3">Tag(s):</div>
+                    <div class="list-nav flex-item-center gap-12"><a class="caption2 pt-8 pb-8 pl-16 pr-16 bg-surface bora-20 hover-button-black" href="#!"><%-noticia.categoria%></a></div>
+                  </div>
+                  <div class="share-block flex-item-center gap-16">
+                    <div class="caption2 pt-8 pb-8 pl-16 pr-16 bora-8 border-line-1px">Copy the link</div>
+                    <div class="social-media flex-item-center gap-12"><a href="http://facebook.com" target="_blank"> <i class="icon-facebook"></i></a><a href="http://linkedin.com" target="_blank"> <i class="icon-in"></i></a><a href="http://twitter.com" target="_blank"> <i class="icon-twitter fs-14"></i></a><a href="http://instagram.com" target="_blank"> <i class="icon-insta fs-14"></i></a><a href="http://youtube.com" target="_blank"> <i class="icon-youtube fs-12"></i></a></div>
+                  </div>
+                </div>
+                <div class="mt-32 line-x"></div>
+
+                <div class="line-x"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><a class="scroll-to-top-btn" href="#header"><i class="ph-bold ph-caret-up"></i></a>
+      <div class="pb-100">    </div>
+    </div>
+
+  </body>
