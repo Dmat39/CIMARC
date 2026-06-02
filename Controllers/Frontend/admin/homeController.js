@@ -2,14 +2,17 @@ const Usuario = require('../../../Models/Usuario'); // Importa tu modelo de usua
 const Evento=require('../../../Models/Eventos'); 
 const Noticias=require('../../../Models/Noticias'); 
 const blog=require('../../../Models/Blogs');
-exports.homeAdmin = (req,res) =>{
+exports.homeAdmin = async (req,res) =>{
+    const [totalUsuarios, totalEventos, totalNoticias, totalBlogs] = await Promise.all([
+        Usuario.count(),
+        Evento.count(),
+        Noticias.count(),
+        blog.count()
+    ]);
     res.render('admin/home',{
-        isHome: false,
-        isCliente: false,
-        isJobs: false,
-        isAdmin: true,
-        isFooter: false
-});
+        isHome: false, isCliente: false, isJobs: false, isAdmin: true, isFooter: false,
+        totalUsuarios, totalEventos, totalNoticias, totalBlogs
+    });
 }
 
 
@@ -208,19 +211,14 @@ exports.formMantenimientoUsu = async (req,res) =>{
 }
 exports.formVerDatos = async (req,res) =>{
     try {
-        
         const usuarios = await Usuario.findByPk(req.params.id);
+        const successMessage = req.session.successMessage || null;
+        delete req.session.successMessage;
         res.render('admin/mantenimientoUsuario/verDatos',{
-            isHome: false,
-            isCliente: false,
-            isJobs: false,
-            isAdmin: true,
-            usuarios,
-            isFooter: false
-    
+            isHome: false, isCliente: false, isJobs: false, isAdmin: true, isFooter: false,
+            usuarios, successMessage
         });
     } catch (error) {
-        // Manejar el error apropiadamente
         res.status(500).send('Error obteniendo usuarios');
     }
 }

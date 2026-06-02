@@ -10,7 +10,7 @@ const configuracionMulter = {
     limits: { fileSize: 50000000 },  // límite de tamaño en bytes
     storage: multer.diskStorage({
         destination: (req, file, next) => {
-            next(null, __dirname + '../../uploads/noticias'); // Change the destination folder to 'uploads/noticias'
+            next(null, path.join(__dirname, '../uploads/noticias'));
         },
         filename: (req, file, next) => {
             const extension = file.originalname.split('.').pop();  // obtener la extensión del archivo original
@@ -149,12 +149,10 @@ exports.eliminarNoticias = async (req, res, next) => {
             return res.status(404).json({ mensaje: 'Pago no encontrado' });
         }
 
-        // Borrar el archivo asociado al caso si existe
         if (noticias.imagen) {
-            const rutaArchivo = path.join(__dirname, `../uploads/noticias/${noticias.imagen}` );
-           await fs.unlink(rutaArchivo);
+            const rutaArchivo = path.join(__dirname, `../uploads/noticias/${noticias.imagen}`);
+            await fs.unlink(rutaArchivo).catch(() => {});
         }
-        // Eliminar el pago de la base de datos
         await noticias.destroy();
         res.redirect('/admin/noticias');
     } catch (error) {

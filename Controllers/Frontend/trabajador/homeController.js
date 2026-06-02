@@ -4,6 +4,7 @@ exports.homeTrabajador = (req,res) =>{
         isCliente: false,
         isJobs: true,
         isAdmin: false,
+        isFooter: false,
 });
 }
 
@@ -13,6 +14,7 @@ exports.pagoRegister = (req,res) =>{
         isCliente: false,
         isJobs: true,
         isAdmin: false,
+        isFooter: false,
 });
 }
 

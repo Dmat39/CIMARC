@@ -1,39 +1,52 @@
-
 <div class="content">
+  <div class="page-header">
+    <div>
+      <h2>Mis Documentos</h2>
+      <small>Historial de documentos subidos</small>
+    </div>
+    <a href="/cliente/AddDocument" class="btn-primary-panel">
+      <i class="fa-solid fa-upload"></i> Subir Documento
+    </a>
+  </div>
 
-<div>
-<a href="/cliente/AddDocument" class="boton-derecha">Subir Documentos</a>
-</div>
-<br>
-<br>
-<br>
-<div class="lista-usuarios">
-    <h1>Listado de Documentos</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Titulo de Documento</th>
-                <th>Descripcion</th>
-                <th>fecha</th>
-                <th>Documento</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% DocumentAll.forEach(documentCliente => { %>
-                <tr>
-                    <td><%= documentCliente.titulodocumento %></td>
-                    <td><%= documentCliente.descripcion %></td>
-                    <td><%= documentCliente.fecha %></td>
-                    <td>
-                        <% if (documentCliente.formato) { %>
-                            <a href="/uploads/documentocliente/<%= documentCliente.formato %>" download="<%= documentCliente.formato %>"> Descargar</a>
-                        <% } else { %>
-                            Sin archivo
-                        <% } %>
-                    </td>
-                </tr>>
-            <% }); %>
-        </tbody>
+  <div class="panel-card">
+    <div class="panel-card-header">
+      <h5>Listado de Documentos (<%= DocumentAll.length %>)</h5>
+    </div>
+    <table class="panel-table">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Descripción</th>
+          <th>Fecha</th>
+          <th style="text-align:center;">Archivo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% DocumentAll.forEach(doc => { %>
+        <tr>
+          <td style="font-weight:600; color:#1a1a2e;"><%= doc.titulodocumento %></td>
+          <td style="color:#666; font-size:13px;"><%= doc.descripcion %></td>
+          <td style="color:#999; font-size:13px;"><%= doc.fecha %></td>
+          <td style="text-align:center;">
+            <% if(doc.formato) { %>
+            <a href="/uploads/documentocliente/<%= doc.formato %>" download
+               style="background:#e8f4ff; color:#03a7ff; padding:6px 14px; border-radius:6px; font-size:12px; font-weight:600; text-decoration:none;">
+              <i class="fa-solid fa-download"></i> Descargar
+            </a>
+            <% } else { %>
+            <span style="color:#ccc; font-size:12px;">Sin archivo</span>
+            <% } %>
+          </td>
+        </tr>
+        <% }); %>
+        <% if(DocumentAll.length === 0) { %>
+        <tr><td colspan="4" style="text-align:center; padding:48px; color:#ccc;">
+          <i class="fa-solid fa-file-circle-xmark" style="font-size:36px; display:block; margin-bottom:12px;"></i>
+          No tienes documentos subidos aún.
+        </td></tr>
+        <% } %>
+      </tbody>
     </table>
-</div>
+  </div>
 </div>

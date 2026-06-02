@@ -1,48 +1,148 @@
-<link rel="stylesheet" href="/assets/css/barra.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
 <div class="content">
-    <div class="seccion-botones">
-        <a href="/admin/mantenimientoUsu" class="boton-derecha">Regresar</a>
+  <div class="page-header">
+    <div>
+      <h2>Datos del Usuario</h2>
+      <small>Información detallada y gestión de acceso</small>
     </div>
-    <br><br>
-    <div class="seccion-formulario">
-        <h1>Datos del Usuario</h1>
-        <% if (usuarios) { %>
-        <table class="table table-bordered mt-3">
-            <tbody>
-                <tr>
-                    <th>Usuario (ID)</th>
-                    <td><%= usuarios.userid %></td>
-                </tr>
-                <tr>
-                    <th>Nombre</th>
-                    <td><%= usuarios.name %></td>
-                </tr>
-                <tr>
-                    <th>Correo</th>
-                    <td><%= usuarios.email %></td>
-                </tr>
-                <tr>
-                    <th>DNI / RUC</th>
-                    <td><%= usuarios.Identity %></td>
-                </tr>
-                <tr>
-                    <th>Teléfono</th>
-                    <td><%= usuarios.telf %></td>
-                </tr>
-                <tr>
-                    <th>Rol</th>
-                    <td><%= usuarios.role %></td>
-                </tr>
-                <tr>
-                    <th>Estado</th>
-                    <td><%= usuarios.activo === 1 ? 'Activo' : 'Inactivo' %></td>
-                </tr>
-            </tbody>
-        </table>
-        <% } else { %>
-            <p class="alert alert-warning">Usuario no encontrado.</p>
-        <% } %>
+    <a href="/admin/mantenimientoUsu" class="btn-secondary-panel">
+      <i class="fa-solid fa-arrow-left"></i> Regresar
+    </a>
+  </div>
+
+  <% if(successMessage) { %>
+  <div class="alert-success-panel"><i class="fa-solid fa-circle-check"></i> <%= successMessage %></div>
+  <% } %>
+
+  <% if(usuarios) { %>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start;">
+
+    <!-- Tarjeta de datos -->
+    <div class="panel-card">
+      <div class="panel-card-header">
+        <h5><i class="fa-solid fa-id-card" style="color:#03a7ff; margin-right:8px;"></i>Información del Usuario</h5>
+      </div>
+      <div class="panel-card-body">
+        <div style="display:flex; align-items:center; gap:16px; margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid #f0f0f0;">
+          <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,#03a7ff,#0277bd); color:white; display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:700; flex-shrink:0;">
+            <%= usuarios.userid.charAt(0).toUpperCase() %>
+          </div>
+          <div>
+            <div style="font-size:18px; font-weight:700; color:#1a1a2e;"><%= usuarios.name %></div>
+            <div style="color:#999; font-size:13px;">@<%= usuarios.userid %></div>
+          </div>
+        </div>
+
+        <% const rows = [
+          {icon:'fa-envelope',    label:'Correo',   value: usuarios.email},
+          {icon:'fa-id-card',     label:'DNI / RUC',value: usuarios.Identity},
+          {icon:'fa-phone',       label:'Teléfono', value: usuarios.telf}
+        ]; %>
+        <% rows.forEach(row => { %>
+        <div style="display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid #f8f8f8;">
+          <i class="fa-solid <%= row.icon %>" style="width:18px; text-align:center; color:#03a7ff;"></i>
+          <span style="color:#999; font-size:13px; width:90px; flex-shrink:0;"><%= row.label %></span>
+          <span style="font-weight:500; color:#333;"><%= row.value %></span>
+        </div>
+        <% }); %>
+
+        <div style="display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid #f8f8f8;">
+          <i class="fa-solid fa-shield-halved" style="width:18px; text-align:center; color:#03a7ff;"></i>
+          <span style="color:#999; font-size:13px; width:90px; flex-shrink:0;">Rol</span>
+          <% if(usuarios.role==='admin') { %>
+            <span class="badge-role badge-admin">Admin</span>
+          <% } else if(usuarios.role==='trabajador') { %>
+            <span class="badge-role badge-worker">Trabajador</span>
+          <% } else { %>
+            <span class="badge-role badge-client">Cliente</span>
+          <% } %>
+        </div>
+        <div style="display:flex; align-items:center; gap:14px; padding:12px 0;">
+          <i class="fa-solid fa-circle" style="width:18px; text-align:center; color:<%= usuarios.activo===1 ? '#27ae60' : '#ccc' %>;"></i>
+          <span style="color:#999; font-size:13px; width:90px; flex-shrink:0;">Estado</span>
+          <span class="badge-role <%= usuarios.activo===1 ? 'badge-active' : 'badge-inactive' %>">
+            <%= usuarios.activo===1 ? 'Activo' : 'Inactivo' %>
+          </span>
+        </div>
+      </div>
     </div>
+
+    <!-- Tarjeta reset contraseña -->
+    <div class="panel-card">
+      <div class="panel-card-header">
+        <h5><i class="fa-solid fa-key" style="color:#f39c12; margin-right:8px;"></i>Restablecer Contraseña</h5>
+      </div>
+      <div class="panel-card-body">
+        <p style="color:#888; font-size:13px; margin:0 0 20px;">
+          Ingresa una nueva contraseña para el usuario <strong>@<%= usuarios.userid %></strong>. El usuario deberá usarla en su próximo inicio de sesión.
+        </p>
+        <form action="/admin/reset-password/<%= usuarios.id %>" method="POST" onsubmit="return validar()">
+          <div class="form-group">
+            <label>Nueva Contraseña</label>
+            <div style="position:relative;">
+              <input type="password" id="newPassword" name="newPassword" required
+                placeholder="Mínimo 8 caracteres" minlength="8"
+                style="padding-right:44px;">
+              <button type="button" onclick="togglePass()" tabindex="-1"
+                style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:#999; padding:0; margin:0;">
+                <i class="fa-solid fa-eye" id="eyeIcon"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Confirmar Contraseña</label>
+            <input type="password" id="confirmPassword" required
+              placeholder="Repetir contraseña" minlength="8">
+            <small id="matchMsg" style="font-size:12px; margin-top:4px; display:none;"></small>
+          </div>
+          <button type="submit" class="btn-primary-panel" style="width:100%; justify-content:center; padding:13px; background:#f39c12; margin-top:8px;">
+            <i class="fa-solid fa-key"></i> Restablecer Contraseña
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+  <% } else { %>
+  <div class="panel-card">
+    <div class="panel-card-body" style="text-align:center; padding:48px; color:#ccc;">
+      <i class="fa-solid fa-user-slash" style="font-size:36px; display:block; margin-bottom:12px;"></i>
+      Usuario no encontrado.
+    </div>
+  </div>
+  <% } %>
 </div>
+
+<script>
+function togglePass() {
+  var input = document.getElementById('newPassword');
+  var icon  = document.getElementById('eyeIcon');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.className = 'fa-solid fa-eye-slash';
+  } else {
+    input.type = 'password';
+    icon.className = 'fa-solid fa-eye';
+  }
+}
+
+function validar() {
+  var np = document.getElementById('newPassword').value;
+  var cp = document.getElementById('confirmPassword').value;
+  var msg = document.getElementById('matchMsg');
+  if (np !== cp) {
+    msg.textContent = 'Las contraseñas no coinciden.';
+    msg.style.color = '#e74c3c';
+    msg.style.display = 'block';
+    return false;
+  }
+  return true;
+}
+
+document.getElementById('confirmPassword').addEventListener('input', function() {
+  var msg = document.getElementById('matchMsg');
+  var match = this.value === document.getElementById('newPassword').value;
+  msg.style.display = this.value ? 'block' : 'none';
+  msg.textContent = match ? '✓ Las contraseñas coinciden' : 'Las contraseñas no coinciden';
+  msg.style.color  = match ? '#27ae60' : '#e74c3c';
+});
+</script>

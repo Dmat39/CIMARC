@@ -7,7 +7,7 @@ passport.use(new LocalStrategy({
     passwordField :'password'
     },
     async(userid,password,next) =>{
-        // codigo se ejecuta al llenar el formulario
+        userid = userid.trim();
         const usuario = await Usuarios.findOne({ where: {userid, activo: 1}});
 
         // revisars si existe o no

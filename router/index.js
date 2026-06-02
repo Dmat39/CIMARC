@@ -264,8 +264,13 @@ module.exports = function () {
         UsuarioController.actualizarUsuario
     )
     router.get('/user-roles/delete/:idUsu',
-    
+
         UsuarioController.eliminarUsuario
+    )
+
+    router.post('/admin/reset-password/:idUsu',
+        authController.usuarioAutenticado,
+        UsuarioController.resetPassword
     )
 
 

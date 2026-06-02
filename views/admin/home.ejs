@@ -1,12 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/assets/css/barra.css">
-</head>
-<body>
-    
-</body>
-</html>
+<div class="content">
+  <div class="page-header">
+    <div>
+      <h2>Dashboard</h2>
+      <small>Bienvenido al panel de administración de CIMARC</small>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#e8f4ff;">
+        <i class="fa-solid fa-users" style="color:#03a7ff;"></i>
+      </div>
+      <div>
+        <div class="stat-label">Usuarios</div>
+        <div class="stat-value"><%= totalUsuarios %></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#fff8e1;">
+        <i class="fa-solid fa-calendar-days" style="color:#f39c12;"></i>
+      </div>
+      <div>
+        <div class="stat-label">Eventos</div>
+        <div class="stat-value"><%= totalEventos %></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#ffeaea;">
+        <i class="fa-solid fa-newspaper" style="color:#e74c3c;"></i>
+      </div>
+      <div>
+        <div class="stat-label">Noticias</div>
+        <div class="stat-value"><%= totalNoticias %></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#e8faf0;">
+        <i class="fa-solid fa-blog" style="color:#27ae60;"></i>
+      </div>
+      <div>
+        <div class="stat-label">Blogs</div>
+        <div class="stat-value"><%= totalBlogs %></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+    <div class="panel-card">
+      <div class="panel-card-header">
+        <h5><i class="fa-solid fa-bolt" style="color:#03a7ff; margin-right:8px;"></i>Acciones Rápidas</h5>
+      </div>
+      <div class="panel-card-body" style="display:flex; flex-direction:column; gap:12px;">
+        <a href="/admin/register" class="btn-primary-panel" style="justify-content:center;">
+          <i class="fa-solid fa-user-plus"></i> Registrar Usuario
+        </a>
+        <a href="/admin/noticias/register" class="btn-primary-panel" style="justify-content:center; background:#e74c3c;">
+          <i class="fa-solid fa-plus"></i> Nueva Noticia
+        </a>
+        <a href="/admin/eventos/register" class="btn-primary-panel" style="justify-content:center; background:#f39c12;">
+          <i class="fa-solid fa-plus"></i> Nuevo Evento
+        </a>
+        <a href="/admin/blog/blogRegister" class="btn-primary-panel" style="justify-content:center; background:#27ae60;">
+          <i class="fa-solid fa-plus"></i> Nuevo Blog
+        </a>
+      </div>
+    </div>
+
+    <div class="panel-card">
+      <div class="panel-card-header">
+        <h5><i class="fa-solid fa-compass" style="color:#03a7ff; margin-right:8px;"></i>Módulos del Sistema</h5>
+      </div>
+      <div class="panel-card-body" style="display:flex; flex-direction:column; gap:10px;">
+        <a href="/admin/mantenimientoUsu" style="display:flex; align-items:center; gap:12px; padding:12px 16px; background:#f8f9fa; border-radius:10px; text-decoration:none; color:#333; font-weight:500; transition:.2s;" onmouseover="this.style.background='#e8f4ff'" onmouseout="this.style.background='#f8f9fa'">
+          <i class="fa-solid fa-users" style="color:#03a7ff; width:20px; text-align:center;"></i> Gestión de Usuarios
+          <i class="fa-solid fa-chevron-right" style="margin-left:auto; color:#ccc;"></i>
+        </a>
+        <a href="/admin/eventos" style="display:flex; align-items:center; gap:12px; padding:12px 16px; background:#f8f9fa; border-radius:10px; text-decoration:none; color:#333; font-weight:500; transition:.2s;" onmouseover="this.style.background='#fff8e1'" onmouseout="this.style.background='#f8f9fa'">
+          <i class="fa-solid fa-calendar-days" style="color:#f39c12; width:20px; text-align:center;"></i> Gestión de Eventos
+          <i class="fa-solid fa-chevron-right" style="margin-left:auto; color:#ccc;"></i>
+        </a>
+        <a href="/admin/noticias" style="display:flex; align-items:center; gap:12px; padding:12px 16px; background:#f8f9fa; border-radius:10px; text-decoration:none; color:#333; font-weight:500; transition:.2s;" onmouseover="this.style.background='#ffeaea'" onmouseout="this.style.background='#f8f9fa'">
+          <i class="fa-solid fa-newspaper" style="color:#e74c3c; width:20px; text-align:center;"></i> Gestión de Noticias
+          <i class="fa-solid fa-chevron-right" style="margin-left:auto; color:#ccc;"></i>
+        </a>
+        <a href="/admin/blog" style="display:flex; align-items:center; gap:12px; padding:12px 16px; background:#f8f9fa; border-radius:10px; text-decoration:none; color:#333; font-weight:500; transition:.2s;" onmouseover="this.style.background='#e8faf0'" onmouseout="this.style.background='#f8f9fa'">
+          <i class="fa-solid fa-blog" style="color:#27ae60; width:20px; text-align:center;"></i> Gestión de Blog
+          <i class="fa-solid fa-chevron-right" style="margin-left:auto; color:#ccc;"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

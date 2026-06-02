@@ -1,14 +1,13 @@
 const Noticias = require('../../../Models/Noticias');
 const Eventos= require('../../../Models/Eventos');
 const usuarios = require('../../../Models/Usuario');
-exports.home = (req,res) =>{
+exports.home = async (req,res) =>{
+    const Noticias = require('../../../Models/Noticias');
+    const ultimasNoticias = await Noticias.findAll({ include: usuarios, limit: 3, order: [['createdAt','DESC']] });
     res.render('public/home',{
-        isHome: true,
-        isCliente: false,
-        isJobs: false,
-        isAdmin: false,
-        isFooter: true
-});
+        isHome: true, isCliente: false, isJobs: false, isAdmin: false, isFooter: true,
+        ultimasNoticias
+    });
 }
 exports.service = (req,res) =>{
     res.render('public/service',{
@@ -71,13 +70,12 @@ exports.About = (req,res) =>{
         isFooter: true
     })
 }
-exports.Blogs = (req,res) =>{
+exports.Blogs = async (req,res) =>{
+    const Blogs = require('../../../Models/Blogs');
+    const blogs = await Blogs.findAll({ include: usuarios });
     res.render('public/blogs',{
-        isHome: true,
-        isCliente: false,
-        isJobs: false,
-        isAdmin: false,
-        isFooter: true
+        isHome: true, isCliente: false, isJobs: false, isAdmin: false, isFooter: true,
+        blogs
     })
 }
 exports.Eventos = async (req,res) =>{

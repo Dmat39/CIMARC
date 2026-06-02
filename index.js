@@ -28,7 +28,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // crear la session
 app.use(session({
-secret: 'tu_secreto',
+secret: process.env.SESSION_SECRET,
 resave: false,
 saveUninitialized: true
 }));
@@ -67,7 +67,7 @@ app.use(passport.session());
 app.use('/', routes());
 
 // Puerto
-const puerto = 5000;
+const puerto = process.env.PORT || 5000;
 app.listen(puerto, () => {
   console.log(`Servidor escuchando en el puerto ${puerto}`);
 });

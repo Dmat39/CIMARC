@@ -1,70 +1,79 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="/assets/css/barra.css">
-
 <div class="content">
-
-            <% if (successMessage) { %>
-                <div class="d-flex justify-content-center mt-3">
-                    <div class="alert alert-success text-center" role="alert">
-                <%= successMessage %>
-            </div>
-        </div>
-            <% } %>
- 
-
-    <div class="seccion-botones">
-        <br>
-        <a href="/admin/eventos/register" class="boton-derecha">Registrar Eventos</a>
+  <div class="page-header">
+    <div>
+      <h2>Eventos</h2>
+      <small>Gestión de eventos publicados</small>
     </div>
-    <br>
-    <h1>Listado de Eventos</h1>
-        <div class="lista-conocimientos">
-            <table>
-                <thead>
-                    <tr>
-                        <th>titulo</th>
-                        <th>descripcion</th>
-                        <th>ponentes</th>
-                        <th>fecha</th>
-                        <th>categoria</th>
-                        <th>documentos</th>
-                        <th>imagen</th>
-                        <th>calle</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% eventos.forEach(evento => { %>
-                        <tr>
-                            <td><%= evento.titulo %></td>
-                            <td><%= evento.descripcion %></td>
-                            <td><%= evento.ponentes %></td>
-                            <td><%= evento.fecha %></td>
-                            <td><%= evento.categoria %></td>
-                            <td>
-                                <% if (evento.documentos) { %>
-                                    <a href="/uploads/eventos/documentos/<%= evento.documentos %>" target="_blank">Enlace al documento</a>
-                                <% } %>
-                            </td>
-                            <td><% if(evento.imagen) {%>
-                                <img  width="200px"    src="/uploads/eventos/imagen/<%= evento.imagen %>">
-                            <% } %>
-                            </td>
-                            <td><%= evento.calle %></td>
-                            <td class="acciones">
-                                <button  type="submit">
-                                    <a href="/eventos/<%= evento.id %>" class="btn btn-rojo">Ver</a>
-                                </button>
-                                <button>
-                                    <a href="/admin/eventos/editar/<%= evento.id %>" class="btn btn-rojo">editar</a>
-                                </button>
-                                <button>
-                                    <a href="/deleteeventos/<%= evento.id %>" class="btn btn-rojo">Eliminar</a>
-                                </button>
-                            </td>   
-                        </tr>
-                    <% }); %>
-                </tbody>
-            </table>
-        </div>
+    <a href="/admin/eventos/register" class="btn-primary-panel">
+      <i class="fa-solid fa-plus"></i> Registrar Evento
+    </a>
+  </div>
+
+  <% if (successMessage) { %>
+  <div class="alert-success-panel"><i class="fa-solid fa-circle-check"></i> <%= successMessage %></div>
+  <% } %>
+
+  <div class="panel-card">
+    <div class="panel-card-header">
+      <h5>Listado de Eventos (<%= eventos.length %>)</h5>
+      <input type="text" placeholder="Buscar..." oninput="filtrar(this.value,'tblEventos')"
+        style="border:1.5px solid #e8e8e8; border-radius:8px; padding:8px 14px; font-size:13px; outline:none; width:200px;">
+    </div>
+    <table class="panel-table" id="tblEventos">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Ponentes</th>
+          <th>Fecha</th>
+          <th>Categoría</th>
+          <th>Imagen</th>
+          <th style="text-align:center;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% eventos.forEach(evento => { %>
+        <tr>
+          <td style="font-weight:600; color:#1a1a2e; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><%= evento.titulo %></td>
+          <td style="font-size:13px; color:#666;"><%= evento.ponentes || '—' %></td>
+          <td style="color:#999; font-size:13px;"><%= evento.fecha %></td>
+          <td><span class="badge-role badge-worker"><%= evento.categoria %></span></td>
+          <td>
+            <% if(evento.imagen) { %>
+            <img src="/uploads/eventos/imagen/<%= evento.imagen %>" style="width:60px; height:42px; object-fit:cover; border-radius:6px;">
+            <% } else { %>
+            <span style="color:#ccc; font-size:12px;">Sin imagen</span>
+            <% } %>
+          </td>
+          <td style="text-align:center; white-space:nowrap;">
+            <a href="/eventos/<%= evento.id %>" target="_blank"
+               style="background:#e8f4ff; color:#03a7ff; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; text-decoration:none; margin-right:5px;">
+              <i class="fa-solid fa-eye"></i> Ver
+            </a>
+            <a href="/admin/eventos/editar/<%= evento.id %>"
+               style="background:#fff8e1; color:#f39c12; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; text-decoration:none; margin-right:5px;">
+              <i class="fa-solid fa-pen"></i> Editar
+            </a>
+            <a href="/deleteeventos/<%= evento.id %>" onclick="return confirm('¿Eliminar este evento?')"
+               style="background:#ffeaea; color:#e74c3c; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; text-decoration:none;">
+              <i class="fa-solid fa-trash"></i>
+            </a>
+          </td>
+        </tr>
+        <% }); %>
+        <% if(eventos.length === 0) { %>
+        <tr><td colspan="6" style="text-align:center; padding:40px; color:#ccc;">
+          <i class="fa-solid fa-calendar-days" style="font-size:32px; display:block; margin-bottom:10px;"></i>No hay eventos registrados.
+        </td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
 </div>
+<script>
+function filtrar(val, id) {
+  val = val.toLowerCase();
+  document.querySelectorAll('#' + id + ' tbody tr').forEach(r => {
+    r.style.display = r.textContent.toLowerCase().includes(val) ? '' : 'none';
+  });
+}
+</script>

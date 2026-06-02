@@ -1,76 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/assets/css/barra.css">
-</head>
-<body>
-  <div class="content">
-  
-              <% if (successMessage) { %>
-                  <div class="d-flex justify-content-center mt-3">
-                      <div class="alert alert-success text-center" role="alert">
-                  <%= successMessage %>
-              </div>
-          </div>
-              <% } %>
-   
-  
-      <div class="seccion-botones">
-        <br>
-          <a href="/admin/noticias/register" class="boton-derecha">Registrar Noticias</a>
-        </div>
-      <br>
-      <h1>Listado de Noticias</h1>
-          <div class="lista-conocimientos">
-              <table>
-                  <thead>
-                      <tr>
-                          <th>titulo</th>
-                          <!-- <th>descripcion</th> -->
-                          <th>fecha</th>
-                          <th>categoria</th>
-                          <th>imagen</th>
-                          <th>acciones</th>
-                      </tr>
-                  </thead>
-                    <tbody>
-                        <% noticias.forEach(noticia => { %>
-                            <tr>
-                                <td><%= noticia.titulo %></td>
-                                <!-- <td><%= noticia.descripcion %></td> -->
-                                <td><%= noticia.fecha %></td>
-                                <td><%= noticia.categoria %></td>
-                                <td><% if(noticia.imagen) {%>
-                                    <img  width="200px"    src="/uploads/noticias/<%= noticia.imagen %>">
-                                <% } %>
-                                </td>
-                                <td class="acciones">
-                                    <button  type="submit">
-                                        <a href="/noticias/<%= noticia.id %>">Ver</a>
-                                    </button>
-                                    <button>
-                                        <a href="/admin/noticias/editar/<%= noticia.id %>">editar</a>
-                                    </button>
-                                    <button>
-                                        <a href="/deletenoticias/<%= noticia.id %>" class="btn btn-rojo">Eliminar</a>
-                                    </button>
-                                </td>                          
-                            </tr>
-                        <% }); %>
-                    </tbody>
-              </table>
-          </div>
+<div class="content">
+  <div class="page-header">
+    <div>
+      <h2>Noticias</h2>
+      <small>Gestión de noticias publicadas</small>
+    </div>
+    <a href="/admin/noticias/register" class="btn-primary-panel">
+      <i class="fa-solid fa-plus"></i> Registrar Noticia
+    </a>
   </div>
-</body>
-</html>
 
+  <% if (successMessage) { %>
+  <div class="alert-success-panel"><i class="fa-solid fa-circle-check"></i> <%= successMessage %></div>
+  <% } %>
 
-
-
-
-
-
-
+  <div class="panel-card">
+    <div class="panel-card-header">
+      <h5>Listado de Noticias (<%= noticias.length %>)</h5>
+      <input type="text" placeholder="Buscar..." oninput="filtrar(this.value,'tblNoticias')"
+        style="border:1.5px solid #e8e8e8; border-radius:8px; padding:8px 14px; font-size:13px; outline:none; width:200px;">
+    </div>
+    <table class="panel-table" id="tblNoticias">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Categoría</th>
+          <th>Fecha</th>
+          <th>Imagen</th>
+          <th style="text-align:center;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% noticias.forEach(noticia => { %>
+        <tr>
+          <td style="font-weight:600; color:#1a1a2e; max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><%= noticia.titulo %></td>
+          <td><span class="badge-role badge-client"><%= noticia.categoria %></span></td>
+          <td style="color:#999; font-size:13px;"><%= noticia.fecha %></td>
+          <td>
+            <% if(noticia.imagen) { %>
+            <img src="/uploads/noticias/<%= noticia.imagen %>" style="width:60px; height:42px; object-fit:cover; border-radius:6px;">
+            <% } else { %>
+            <span style="color:#ccc; font-size:12px;">Sin imagen</span>
+            <% } %>
+          </td>
+          <td style="text-align:center; white-space:nowrap;">
+            <a href="/noticias/<%= noticia.id %>" target="_blank"
+               style="background:#e8f4ff; color:#03a7ff; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; text-decoration:none; margin-right:5px;">
+              <i class="fa-solid fa-eye"></i> Ver
+            </a>
+            <a href="/admin/noticias/editar/<%= noticia.id %>"
+               style="background:#fff8e1; color:#f39c12; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; text-decoration:none; margin-right:5px;">
+              <i class="fa-solid fa-pen"></i> Editar
+            </a>
+            <a href="/deletenoticias/<%= noticia.id %>" onclick="return confirm('¿Eliminar esta noticia?')"
+               style="background:#ffeaea; color:#e74c3c; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; text-decoration:none;">
+              <i class="fa-solid fa-trash"></i>
+            </a>
+          </td>
+        </tr>
+        <% }); %>
+        <% if(noticias.length === 0) { %>
+        <tr><td colspan="5" style="text-align:center; padding:40px; color:#ccc;">
+          <i class="fa-solid fa-newspaper" style="font-size:32px; display:block; margin-bottom:10px;"></i>No hay noticias registradas.
+        </td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+function filtrar(val, id) {
+  val = val.toLowerCase();
+  document.querySelectorAll('#' + id + ' tbody tr').forEach(r => {
+    r.style.display = r.textContent.toLowerCase().includes(val) ? '' : 'none';
+  });
+}
+</script>

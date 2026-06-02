@@ -21,6 +21,10 @@
     <link rel="stylesheet" href="/assets/icons/style.css" />
     <link rel="stylesheet" href="/assets/css/style.css" />
     <link rel="stylesheet" href="/assets/css/animate-4.1.1.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <% if(isAdmin || isJobs || isCliente) { %>
+    <link rel="stylesheet" href="/assets/css/barra.css">
+    <% } %>
     <!--endbuild-->
     <title>CIMARC</title>
 </head>
@@ -281,40 +285,58 @@
     </header>
   <% }%>
     <% if(isCliente) { %>
-      <div class="sidebar">
-        <header>Cliente CIMARC</header>
-        <ul>
-          <li><a href="/cliente/home"><i class="fa-solid fa-book"></i>Historial</a></li>
-        
-          <li><a href="/cerrar-sesion"><i class="fa-solid fa-right-from-bracket"></i>Cerrar Sesión</a></li>
-        </ul>
+    <div class="sidebar">
+      <a class="sidebar-brand" href="/cliente/home">
+        <img src="/assets/images/Cimarc.png" alt="CIMARC">
+        <span>CIMARC</span>
+      </a>
+      <div class="sidebar-section">Panel Cliente</div>
+      <nav>
+        <a href="/cliente/home"><i class="fa-solid fa-house"></i> Inicio</a>
+        <a href="/cliente/home"><i class="fa-solid fa-file-lines"></i> Mis Documentos</a>
+        <a href="/cliente/AddDocument"><i class="fa-solid fa-upload"></i> Subir Documento</a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="/cerrar-sesion"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</a>
       </div>
+    </div>
     <% } %>
+
     <% if(isJobs) { %>
-      <div class="sidebar">
-        <header>Trabajador CIMARC</header>
-        <ul>
-          <li><a href=""><i class="fa-solid fa-book"></i>Historial de Casos</a></li>
-          <li><a href=""><i class="fa-solid fa-dollar-sign"></i>Listado</a></li>
-          
-          <li><a href="/cerrar-sesion"><i class="fa-solid fa-right-from-bracket"></i>Cerrar Sesión</a></li>
-        </ul>
+    <div class="sidebar">
+      <a class="sidebar-brand" href="/trabajador/home">
+        <img src="/assets/images/Cimarc.png" alt="CIMARC">
+        <span>CIMARC</span>
+      </a>
+      <div class="sidebar-section">Panel Trabajador</div>
+      <nav>
+        <a href="/trabajador/home"><i class="fa-solid fa-house"></i> Inicio</a>
+        <a href="/trabajador/pagoRegister"><i class="fa-solid fa-dollar-sign"></i> Registrar Pago</a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="/cerrar-sesion"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</a>
       </div>
+    </div>
     <% } %>
-    <% if(isAdmin) {%>
-      <div class="sidebar">
-        <header>Admin CIMARC</header>
-        <ul>
-          <li><a href=""><i class="fa-solid fa-book"></i>Lista de Casos</a></li>
-          <li><a href=""><i class="fa-solid fa-dollar-sign"></i>Lista de Pagos</a></li>
-          <li><a href="/admin/mantenimientoUsu"><i class="fa-solid fa-user"></i>Mantenimiento Usuarios</a></li>
-          <li><a href=""><i class="fa-solid fa-chart-line"></i>Estadisticas</a></li>
-          <li><a href="/admin/eventos"><i class="fa-solid fa-address-card"></i>Eventos</a></li>
-          <li><a href="/admin/noticias"><i class="fa-solid fa-calendar-week"></i>Noticias</a></li>
-          <li><a href="/admin/blog"><i class="fa-solid fa-blog"></i>Blog</a></li>
-          <li><a href="/cerrar-sesion"><i class="fa-solid fa-right-from-bracket"></i>Cerrar Sesión</a></li>
-        </ul>
+
+    <% if(isAdmin) { %>
+    <div class="sidebar">
+      <a class="sidebar-brand" href="/admin/home">
+        <img src="/assets/images/Cimarc.png" alt="CIMARC">
+        <span>CIMARC</span>
+      </a>
+      <div class="sidebar-section">Panel Admin</div>
+      <nav>
+        <a href="/admin/home"><i class="fa-solid fa-house"></i> Inicio</a>
+        <a href="/admin/mantenimientoUsu"><i class="fa-solid fa-users"></i> Usuarios</a>
+        <a href="/admin/eventos"><i class="fa-solid fa-calendar-days"></i> Eventos</a>
+        <a href="/admin/noticias"><i class="fa-solid fa-newspaper"></i> Noticias</a>
+        <a href="/admin/blog"><i class="fa-solid fa-blog"></i> Blog</a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="/cerrar-sesion"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</a>
       </div>
+    </div>
     <% } %>
     <!-- cuerpo -->
     <%- body %>

@@ -5,13 +5,9 @@ node_modules/
 .env
 .env.*
 
-# Archivos subidos por usuarios (ignorar contenido, conservar estructura de carpetas)
-uploads/*
-!uploads/blogs/
-!uploads/casos/
-!uploads/eventos/
-!uploads/noticias/
-!uploads/documentocliente/
+# Archivos subidos por usuarios (ignorar contenido, conservar estructura con .gitkeep)
+uploads/**
+!uploads/**/.gitkeep
 
 # IDE - JetBrains
 .idea/

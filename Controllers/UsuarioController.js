@@ -84,6 +84,21 @@ exports.mostrarUsuarioID = async(req,res,next)=>{
     }
 };
 
+exports.resetPassword = async (req, res) => {
+    try {
+        const usuario = await Usuario.findByPk(req.params.idUsu);
+        if (!usuario) return res.status(404).send('Usuario no encontrado');
+
+        const hashed = await bcrypt.hash(req.body.newPassword, 10);
+        await Usuario.update({ password: hashed }, { where: { id: req.params.idUsu } });
+
+        req.session.successMessage = `Contraseña de "${usuario.userid}" restablecida correctamente.`;
+        res.redirect('/admin/ver/datos/' + req.params.idUsu);
+    } catch (error) {
+        res.status(500).send('Error al restablecer contraseña');
+    }
+};
+
 exports.eliminarUsuario = async (req, res) => {
     try {
         let usuario = await Usuario.findByPk(req.params.idUsu);

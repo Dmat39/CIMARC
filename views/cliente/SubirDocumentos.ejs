@@ -1,26 +1,42 @@
 <div class="content">
-    <!-- Contenido principal -->
+  <div class="page-header">
     <div>
-        <a href="/cliente/home" class="boton-derecha">Retroceder</a>
+      <h2>Subir Documento</h2>
+      <small>Adjunta un nuevo documento a tu cuenta</small>
     </div>
-    <br>
-    <br>
-    <div class="seccion-formulario">
-        <h1>Subir Documentos</h1>
-        <form action="/documento" method="POST" enctype="multipart/form-data">
-            <label for="titulo">Título del documento:</label>
-            <input type="text" id="titulo" name="titulodocumento" required>
+    <a href="/cliente/home" class="btn-secondary-panel">
+      <i class="fa-solid fa-arrow-left"></i> Regresar
+    </a>
+  </div>
 
-            <label for="descripcion">Descripción:</label>
-            <textarea id="descripcion" name="descripcion" required></textarea>
-
-            <label for="fecha">Fecha:</label>
-            <input type="date" id="fecha" name="fecha" required>
-
-            <label for="formato">Formato:</label>
-            <input type="file" name="formato">
-
-            <button type="submit">Crear documento</button>
-        </form>
+  <div class="panel-card" style="max-width:600px;">
+    <div class="panel-card-header">
+      <h5><i class="fa-solid fa-file-arrow-up" style="color:#03a7ff; margin-right:8px;"></i>Datos del Documento</h5>
     </div>
+    <div class="panel-card-body">
+      <form action="/documento" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="userid" value="<%= userid %>">
+        <div class="form-group">
+          <label>Título del Documento</label>
+          <input type="text" name="titulodocumento" required placeholder="Nombre descriptivo del documento">
+        </div>
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea name="descripcion" rows="3" required placeholder="Breve descripción del contenido..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Fecha</label>
+          <input type="date" name="fecha" required>
+        </div>
+        <div class="form-group">
+          <label>Archivo</label>
+          <input type="file" name="formato" style="padding:10px 14px; background:#fafafa; cursor:pointer;">
+          <small style="color:#999; font-size:12px; margin-top:4px; display:block;">PDF, imágenes u otros formatos aceptados.</small>
+        </div>
+        <button type="submit" class="btn-primary-panel" style="width:100%; justify-content:center; padding:13px;">
+          <i class="fa-solid fa-upload"></i> Subir Documento
+        </button>
+      </form>
+    </div>
+  </div>
 </div>

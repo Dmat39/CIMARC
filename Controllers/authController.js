@@ -56,6 +56,9 @@ exports.usuarioAutenticado = async (req, res, next) => {
         if (rolUsuario === 'admin' && rutaActual.startsWith(rutaBaseVerDatosUser)) {
             return next();
         }
+        if (rolUsuario === 'admin' && rutaActual.startsWith('/admin/reset-password/')) {
+            return next();
+        }
         if (rolUsuario === 'admin' && rutaActual.startsWith(rutaBaseEditarEvento)) {
             return next();
         }

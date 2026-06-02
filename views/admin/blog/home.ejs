@@ -1,70 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/assets/css/barra.css">
-</head>
-<body>
-  <div class="content">
-  
-
-   
-  
-      <div class="seccion-botones">
-          <br>
-          <a href="/admin/blog/blogRegister" class="boton-derecha">Registrar Blog</a>
-      </div>
-      <br>
-      <h1>Listado de Blog</h1>
-          <div class="lista-usuarios">
-              <table>
-                  <thead>
-                      <tr>
-                          <th>titulo</th>
-                          <th>descripcion</th>
-                          <th>fecha</th>
-                          <th>categoria</th>
-                          <th>imagen</th>
-                          <th>acciones</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                    <% blogs.forEach(blog => { %>
-                        <tr>
-                            <td><%= blog.titulo %></td>
-                            <td><%= blog.descripcion %></td>
-                            <td><%= blog.fecha %></td>
-                            <td><%= blog.categoria %></td>
-                            <td><% if(blog.imagen) {%>
-                                <img  width="200px"    src="/uploads/blogs/<%= blog.imagen %>">
-                            <% } %>
-                            </td>
-                            <td class="acciones">
-                                <button  type="submit">
-                                    <a href="#">Ver</a>
-                                </button>
-                                <button>
-                                    <a href="/admin/blog/editar/<%= blog.id %>">editar</a>
-                                </button>
-                                <button>
-                                    <a href="/deleteblogs/<%= blog.id %>" class="btn btn-rojo">Eliminar</a>
-                                </button>
-                            </td>                            
-                        </tr>
-                    <% }); %>
-                </tbody>
-              </table>
-          </div>
+<div class="content">
+  <div class="page-header">
+    <div>
+      <h2>Blog</h2>
+      <small>Gestión de artículos del blog</small>
+    </div>
+    <a href="/admin/blog/blogRegister" class="btn-primary-panel">
+      <i class="fa-solid fa-plus"></i> Registrar Blog
+    </a>
   </div>
-</body>
-</html>
 
-
-
-
-
-
-
-
+  <div class="panel-card">
+    <div class="panel-card-header">
+      <h5>Listado de Blogs (<%= blogs.length %>)</h5>
+      <input type="text" placeholder="Buscar..." oninput="filtrar(this.value,'tblBlogs')"
+        style="border:1.5px solid #e8e8e8; border-radius:8px; padding:8px 14px; font-size:13px; outline:none; width:200px;">
+    </div>
+    <table class="panel-table" id="tblBlogs">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Descripción</th>
+          <th>Categoría</th>
+          <th>Fecha</th>
+          <th>Imagen</th>
+          <th style="text-align:center;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% blogs.forEach(blog => { %>
+        <tr>
+          <td style="font-weight:600; color:#1a1a2e; max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><%= blog.titulo %></td>
+          <td style="font-size:13px; color:#666; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><%= blog.descripcion %></td>
+          <td><span class="badge-role badge-admin"><%= blog.categoria %></span></td>
+          <td style="color:#999; font-size:13px;"><%= blog.fecha %></td>
+          <td>
+            <% if(blog.imagen) { %>
+            <img src="/uploads/blogs/<%= blog.imagen %>" style="width:60px; height:42px; object-fit:cover; border-radius:6px;">
+            <% } else { %>
+            <span style="color:#ccc; font-size:12px;">Sin imagen</span>
+            <% } %>
+          </td>
+          <td style="text-align:center; white-space:nowrap;">
+            <a href="/admin/blog/editar/<%= blog.id %>"
+               style="background:#fff8e1; color:#f39c12; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; text-decoration:none; margin-right:5px;">
+              <i class="fa-solid fa-pen"></i> Editar
+            </a>
+            <a href="/deleteblogs/<%= blog.id %>" onclick="return confirm('¿Eliminar este blog?')"
+               style="background:#ffeaea; color:#e74c3c; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; text-decoration:none;">
+              <i class="fa-solid fa-trash"></i>
+            </a>
+          </td>
+        </tr>
+        <% }); %>
+        <% if(blogs.length === 0) { %>
+        <tr><td colspan="6" style="text-align:center; padding:40px; color:#ccc;">
+          <i class="fa-solid fa-blog" style="font-size:32px; display:block; margin-bottom:10px;"></i>No hay blogs registrados.
+        </td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+function filtrar(val, id) {
+  val = val.toLowerCase();
+  document.querySelectorAll('#' + id + ' tbody tr').forEach(r => {
+    r.style.display = r.textContent.toLowerCase().includes(val) ? '' : 'none';
+  });
+}
+</script>

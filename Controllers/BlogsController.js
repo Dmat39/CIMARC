@@ -7,10 +7,10 @@ const path = require('path'); // Importar el módulo path
 
 
 const configuracionMulter = {
-    limits: { fileSize: 100000 },  // límite de tamaño en bytes
+    limits: { fileSize: 10000000 },
     storage: multer.diskStorage({
         destination: (req, file, next) => {
-            next(null, __dirname + '../../uploads/blogs'); // Change the destination folder to 'uploads/noticias'
+            next(null, path.join(__dirname, '../uploads/blogs'));
         },
         filename: (req, file, next) => {
             const extension = file.originalname.split('.').pop();  // obtener la extensión del archivo original
@@ -161,13 +161,10 @@ exports.eliminarBlog = async (req, res, next) => {
             return res.status(404).json({ mensaje: 'Caso no encontrado' });
         }
 
-        // Borrar el archivo asociado al caso si existe
         if (blogAEliminar.imagen) {
-            const rutaArchivo = path.join(__dirname, `../uploads/blogs/${blogAEliminar.imagen}` );
-            await fs.unlink(rutaArchivo);
+            const rutaArchivo = path.join(__dirname, `../uploads/blogs/${blogAEliminar.imagen}`);
+            await fs.unlink(rutaArchivo).catch(() => {});
         }
-
-         // Eliminar el caso de la base de datos
         await blogAEliminar.destroy();
 
         //console.log('Ruta del archivo a eliminar:', rutaArchivo); verificar la ruta

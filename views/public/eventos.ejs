@@ -23,7 +23,7 @@
             <div class="row row-gap-32">
               <% eventos.forEach(evento => { %>
                           <div class="blog-item col-12 col-xl-4 col-md-6 item-filter" data-name="tab-one"><a class="blog-item-main" href="/eventos/<%= evento.id %>">
-                              <div class="bg-img w-100 overflow-hidden mb-minus-1"><img class="w-100 h-100 display-block" src="../../uploads/eventos/imagen/<%= evento.imagen %>" alt="Starting your traveling blog with Vasco"/></div>
+                              <div class="bg-img w-100 overflow-hidden mb-minus-1" style="height:220px;"><img class="w-100 display-block" src="/uploads/eventos/imagen/<%= evento.imagen %>" alt="<%= evento.titulo %>" style="height:100%; object-fit:cover;"/></div>
                               <div class="infor bg-white p-24">
                                 <div class="caption2 pt-4 pb-4 pl-12 pr-12 bg-surface bora-40 display-inline-block"><%- evento.categoria -%></div>
                                 <div class="heading6 mt-8"><%- evento.titulo -%></div>

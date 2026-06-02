@@ -1,89 +1,67 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Register</title>
-    <link rel="stylesheet" href="/assets/css/barra.css">
-    
-   
-
-    <!-- Incluir la hoja de estilos de Leaflet -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css">
-</head>
-<body>
-
-    <div class="content">
-        <div class="seccion-botones">
-            <!-- Contenido principal de la página -->
-            <a href="/admin/eventos" class="boton-derecha">Regresar</a>
-        </div>
-        <br> <br> <br>
-        <div class="seccion-formulario">
-            <h1>Registro de Eventos</h1>
-            <form enctype="multipart/form-data" action="/eventos" method="POST">
-
-                <!-- Otros campos de formulario -->
-                <label for="titulo">Título:</label>
-                <input type="text" class="form-control" id="titulo" name="titulo" required>
-
-                <label for="ponentes">Ponentes:</label>
-                <input type="text" class="form-control" id="ponentes" name="ponentes" required>
-
-                <label for="fecha">Fecha:</label>
-                <input type="date" class="form-control" id="fecha" name="fecha" required>
-
-                <label for="categoria">Categoría:</label>
-                <!-- Cambiado a un campo de selección múltiple -->
-                <select class="form-control" id="categoria" name="categoria" multiple required>
-                    <!-- Opciones de categorías -->
-                    <option value="categoria1">Categoría 1</option>
-                    <option value="categoria2">Categoría 2</option>
-                    <!-- Agrega más opciones según sea necesario -->
-                </select>
-
-                <label for="descripcion">Descripción:</label>
-                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
-
-                 <label for="documentos">Documento:</label>
-                <input type="file" class="form-control-file" name="documentos" id="documentos" multiple> 
-               
-                
-                <label for="imagen">imagen:</label>
-                <input type="file" class="form-control-file" id="imagen" name="imagen" accept="image/*" multiple>
-
-                <!-- Contenedor donde se mostrará el mapa con un tamaño fijo -->
-
-                 <div>
-                    <h3>Ubicacion</h3>
-                    <p>Ubica la propiedad en el mapa</p>
-
-                    <div id="mapa" style="height: 300px; width: 100%; max-width: 600px; border: 1px solid #ddd; margin-bottom: 10px;"></div>
-
-                    <div>
-                    <p class="calle">{{datos.calle ? datos.calle : ''}}</p>
-                    </div>
-
-                    <input type="hidden" name="calle" id="calle" value="{{ datos.calle ? datos.calle : '' }}">
-                    <input type="hidden" name="lat" id="lat" value="{{ datos.lat ? datos.lat : '' }}">
-                    <input type="hidden" name="lng" id="lng" value="{{ datos.lng ? datos.lng : '' }}">
-                </div> 
-
-                <!-- Botón para registrar -->
-                <button type="submit" class="btn btn-primary">Registrar</button>
-
-            </form>
-        </div>
+<div class="content">
+  <div class="page-header">
+    <div>
+      <h2>Registrar Evento</h2>
+      <small>Publica un nuevo evento en el sitio</small>
     </div>
+    <a href="/admin/eventos" class="btn-secondary-panel">
+      <i class="fa-solid fa-arrow-left"></i> Regresar
+    </a>
+  </div>
 
-    <!-- Incluir las bibliotecas Leaflet y Esri -->
-     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/esri-leaflet@3.0.8/dist/esri-leaflet.js"></script>
-    <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geosearch/2.7.0/bundle.min.js"></script> 
-    <!-- Tu script Leaflet -->
-     <script src="/js/mapa.js"></script> 
-
-</body>
-</html>
-
+  <div class="panel-card" style="max-width:720px;">
+    <div class="panel-card-header">
+      <h5><i class="fa-solid fa-calendar-days" style="color:#f39c12; margin-right:8px;"></i>Datos del Evento</h5>
+    </div>
+    <div class="panel-card-body">
+      <form enctype="multipart/form-data" action="/eventos" method="POST">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0 20px;">
+          <div class="form-group" style="grid-column:1/-1;">
+            <label>Título</label>
+            <input type="text" name="titulo" required placeholder="Título del evento">
+          </div>
+          <div class="form-group" style="grid-column:1/-1;">
+            <label>Ponentes</label>
+            <input type="text" name="ponentes" required placeholder="Nombre de los ponentes">
+          </div>
+          <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" name="fecha" required>
+          </div>
+          <div class="form-group">
+            <label>Categoría</label>
+            <select name="categoria" required>
+              <option value="">Seleccionar...</option>
+              <option value="Conciliación">Conciliación</option>
+              <option value="Arbitraje">Arbitraje</option>
+              <option value="Seminario">Seminario</option>
+              <option value="Taller">Taller</option>
+              <option value="Conferencia">Conferencia</option>
+            </select>
+          </div>
+          <div class="form-group" style="grid-column:1/-1;">
+            <label>Descripción</label>
+            <textarea name="descripcion" rows="4" required placeholder="Descripción del evento..."></textarea>
+          </div>
+          <div class="form-group" style="grid-column:1/-1;">
+            <label>Dirección / Lugar</label>
+            <input type="text" name="calle" required placeholder="Jr. La Mar 493, Cajamarca">
+          </div>
+          <div class="form-group">
+            <label>Documento <span style="color:#999; font-weight:400; font-size:11px;">(PDF, DOC)</span></label>
+            <input type="file" name="documentos" accept=".pdf,.doc,.docx">
+          </div>
+          <div class="form-group">
+            <label>Imagen <span style="color:#999; font-weight:400; font-size:11px;">(JPG o PNG)</span></label>
+            <input type="file" name="imagen" accept="image/jpeg,image/png">
+          </div>
+        </div>
+        <input type="hidden" name="lat" value="0">
+        <input type="hidden" name="lng" value="0">
+        <button type="submit" class="btn-primary-panel" style="width:100%; justify-content:center; padding:13px; background:#f39c12;">
+          <i class="fa-solid fa-plus"></i> Publicar Evento
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

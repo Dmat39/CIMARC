@@ -372,18 +372,14 @@ exports.eliminarEventos = async (req, res, next) => {
             return res.status(404).json({ mensaje: 'Evento no encontrado' });
         }
 
-        // Borrar el archivo asociado al caso si existe
         if (eventoAEliminar.documentos) {
-            const rutaArchivo = path.join(__dirname, `../uploads/eventos/documentos/${eventoAEliminar.documentos}` );
-            await fs.unlink(rutaArchivo);
+            const rutaArchivo = path.join(__dirname, `../uploads/eventos/documentos/${eventoAEliminar.documentos}`);
+            await fs.unlink(rutaArchivo).catch(() => {});
         }
-
         if (eventoAEliminar.imagen) {
-            const rutaArchivo = path.join(__dirname, `../uploads/eventos/imagen/${eventoAEliminar.imagen}` );
-            await fs.unlink(rutaArchivo);
+            const rutaArchivo = path.join(__dirname, `../uploads/eventos/imagen/${eventoAEliminar.imagen}`);
+            await fs.unlink(rutaArchivo).catch(() => {});
         }
-
-         // Eliminar el caso de la base de datos
         await eventoAEliminar.destroy();
 
         //console.log('Ruta del archivo a eliminar:', rutaArchivo); verificar la ruta
