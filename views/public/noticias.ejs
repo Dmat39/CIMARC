@@ -18,7 +18,7 @@
 <div class="row row-gap-32">
   <% noticias.forEach(noticia => { %>
               <div class="blog-item col-12 col-xl-4 col-md-6 item-filter" data-name="tab-one"><a class="blog-item-main" href="/noticias/<%= noticia.id %>">
-                  <div class="bg-img w-100 overflow-hidden mb-minus-1" style="height:220px;"><img class="w-100 display-block" src="/uploads/noticias/<%= noticia.imagen %>" alt="<%= noticia.titulo %>" style="height:100%; object-fit:cover;"/></div>
+                  <div class="bg-img w-100 overflow-hidden mb-minus-1" style="height:220px;"><img class="w-100 display-block" src="<%= noticia.imagen %>" alt="<%= noticia.titulo %>" style="height:100%; object-fit:cover;"/></div>
                   <div class="infor bg-white p-24">
                     <div class="caption2 pt-4 pb-4 pl-12 pr-12 bg-surface bora-40 display-inline-block"><%- noticia.categoria -%></div>
                     <div class="heading6 mt-8"><%- noticia.titulo -%></div>

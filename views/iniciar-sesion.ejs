@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="/assets/css/login.css">
 </head>
 <body>
+    <% if(typeof demo !== 'undefined' && demo) { %>
+    <div style="position:fixed; top:0; left:0; width:100%; z-index:9999; background:#0288d1; color:white; text-align:center; padding:12px 20px; font-size:14px; font-family:'Poppins',sans-serif; box-shadow:0 2px 8px rgba(0,0,0,.2);">
+        🔒 <strong>Modo Demo</strong> — Esta es una vista de portafolio. El sistema de autenticación está deshabilitado.
+        <a href="/" style="color:white; margin-left:16px; text-decoration:underline; font-weight:600;">← Volver al inicio</a>
+    </div>
+    <div style="height:48px;"></div>
+    <% } %>
     <section>
         <div class="contenedor">
             <div class="imagenCimarc">
@@ -38,7 +45,7 @@
                     <div class="button">
                         <input type="submit" class="btn btn1" value="Iniciar Sesion">
                     </div>
-    
+
                 </form>
             </div>
         </div>

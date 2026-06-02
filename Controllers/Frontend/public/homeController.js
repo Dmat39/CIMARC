@@ -1,136 +1,46 @@
-const Noticias = require('../../../Models/Noticias');
-const Eventos= require('../../../Models/Eventos');
-const usuarios = require('../../../Models/Usuario');
-exports.home = async (req,res) =>{
-    const Noticias = require('../../../Models/Noticias');
-    const ultimasNoticias = await Noticias.findAll({ include: usuarios, limit: 3, order: [['createdAt','DESC']] });
-    res.render('public/home',{
-        isHome: true, isCliente: false, isJobs: false, isAdmin: false, isFooter: true,
-        ultimasNoticias
-    });
-}
-exports.service = (req,res) =>{
-    res.render('public/service',{
-        isHome: true,
-        isCliente: false,
-        isJobs: false,
-        isAdmin: false,
-        isFooter: true
-    })
-}
-exports.serviceConciliacion = (req,res) =>{
-    res.render('public/service-conciliacion',{
-        isHome: true,
-        isCliente: false,
-        isJobs: false,
-        isAdmin: false,
-        isFooter: true
-    })
-}
+const { noticias, eventos, blogs } = require('../../../data/mockData');
 
-exports.ServiceArbitraje = (req,res) =>{
-    res.render('public/service-arbitraje',{
-        isHome: true,
-        isCliente: false,
-        isJobs: false,
-        isAdmin: false,
-        isFooter: true
-    })
-}
+const BASE = { isHome: true, isCliente: false, isJobs: false, isAdmin: false, isFooter: true };
 
-exports.Contactos = (req,res) =>{
-    res.render('public/contacto',{
-        isHome: true,
-        isCliente: false,
-        isJobs: false,
-        isAdmin: false,
-        isFooter: true,
-        mensajeEnviado: false 
-    })
-}
+exports.iniciarSesion = (req, res) => {
+    res.render('iniciar-sesion', { layout: false, demo: false });
+};
 
-exports.NoticiasVista= async (req,res) =>{
-    const noticias = await Noticias.findAll({ include: usuarios }); // Asegúrate de incluir la relación con la tabla de usuarios
-    res.render('public/noticias',{
-        isHome: true,
-        isCliente: false,
-        isJobs: false,
-        isAdmin: false,
-        isFooter: true,
-        noticias: noticias,
-    })
-}
+exports.iniciarSesionDemo = (req, res) => {
+    res.render('iniciar-sesion', { layout: false, demo: true });
+};
 
-exports.About = (req,res) =>{
-    res.render('public/about',{
-        isHome: true,
-        isCliente: false,
-        isJobs: false,
-        isAdmin: false,
-        isFooter: true
-    })
-}
-exports.Blogs = async (req,res) =>{
-    const Blogs = require('../../../Models/Blogs');
-    const blogs = await Blogs.findAll({ include: usuarios });
-    res.render('public/blogs',{
-        isHome: true, isCliente: false, isJobs: false, isAdmin: false, isFooter: true,
-        blogs
-    })
-}
-exports.Eventos = async (req,res) =>{
-    const eventos=await Eventos.findAll({ include: usuarios })
-    res.render('public/eventos',{
-        isHome: true,
-        isCliente: false,
-        isJobs: false,
-        isAdmin: false,
-        isFooter: true,
-        eventos:eventos,
-    })
-}
+exports.home = (req, res) => {
+    const ultimasNoticias = noticias.slice(0, 3);
+    res.render('public/home', { ...BASE, ultimasNoticias });
+};
 
-exports.eventoDetail = async (req, res) => {
-    // Obtener el ID de la noticia desde los parámetros de la URL
-    const eventoId = req.params.id;
-    const evento= await Eventos.findByPk(eventoId, {
-        include: usuarios,
-      });    // Lógica para obtener los detalles de la noticia con el ID proporcionado
-    // Esta lógica dependerá de cómo recuperas los datos de la noticia en tu aplicación
+exports.About = (req, res) => res.render('public/about', BASE);
 
-    // Renderizar la vista de detalle de la noticia (por ejemplo, 'detalleNoticia.ejs')
-    res.render('public/evento-detail', {     isHome: true,
-        isCliente: false,
-        isJobs: false,
-        isAdmin: false,
-        isFooter: true,
-        evento }); // Pasar el ID de la noticia a la vista
-}
+exports.service = (req, res) => res.render('public/service', BASE);
 
+exports.serviceConciliacion = (req, res) => res.render('public/service-conciliacion', BASE);
 
-exports.home6 = (req,res) =>{
-    res.render('public/home6',{
-        isHome: false,
-        isCliente: false,
-        isJobs: false,
-        isAdmin: false,
-        isFooter: true
-    })
-}
+exports.ServiceArbitraje = (req, res) => res.render('public/service-arbitraje', BASE);
 
-exports.noticiaDetail = async (req, res) => {
-    // Obtener el ID de la noticia desde los parámetros de la URL
-    const noticiaId = req.params.id;
-    const noticia = await Noticias.findByPk(noticiaId, {
-        include: usuarios,
-      });    // Lógica para obtener los detalles de la noticia con el ID proporcionado
-    // Esta lógica dependerá de cómo recuperas los datos de la noticia en tu aplicación
+exports.Contactos = (req, res) => res.render('public/contacto', { ...BASE, mensajeEnviado: false });
 
-    // Renderizar la vista de detalle de la noticia (por ejemplo, 'detalleNoticia.ejs')
-    res.render('public/noticia-detail', {     isHome: true,
-        isCliente: false,
-        isJobs: false,
-        isAdmin: false,
-        isFooter: true,
-        noticia }); // Pasar el ID de la noticia a la vista
-}
+exports.enviarContacto = (req, res) => res.render('public/contacto', { ...BASE, mensajeEnviado: true });
+
+exports.NoticiasVista = (req, res) => res.render('public/noticias', { ...BASE, noticias });
+
+exports.noticiaDetail = (req, res) => {
+    const noticia = noticias.find(n => n.id === req.params.id);
+    if (!noticia) return res.redirect('/noticias');
+    res.render('public/noticia-detail', { ...BASE, noticia });
+};
+
+exports.Blogs = (req, res) => res.render('public/blogs', { ...BASE, blogs });
+
+exports.Eventos = (req, res) => res.render('public/eventos', { ...BASE, eventos });
+
+exports.eventoDetail = (req, res) => {
+    const evento = eventos.find(e => e.id === req.params.id);
+    if (!evento) return res.redirect('/eventos');
+    res.render('public/evento-detail', { ...BASE, evento });
+};

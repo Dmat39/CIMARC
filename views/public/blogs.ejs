@@ -17,12 +17,14 @@
   <div class="blog-list mt-100">
     <div class="container">
       <div class="row row-gap-40">
-        <div class="col-12 col-lg-8 flex-column row-gap-40">
+
+        <!-- Lista de blogs -->
+        <div class="col-12 col-lg-8 flex-column row-gap-40" id="listaBlogs">
           <% blogs.forEach(blog => { %>
-          <a class="row blog-item row-gap-20 item-filter" href="#!" data-name="tab-one">
+          <a class="row blog-item row-gap-20 blog-filtrable" href="#!" data-categoria="<%= blog.categoria %>">
             <div class="col-12 col-md-6">
               <div class="bg-img w-100 overflow-hidden bora-16">
-                <img class="w-100 display-block" src="/uploads/blogs/<%= blog.imagen %>" alt="<%= blog.titulo %>" style="height:220px; object-fit:cover;"/>
+                <img class="w-100 display-block" src="<%= blog.imagen %>" alt="<%= blog.titulo %>" style="height:220px; object-fit:cover;"/>
               </div>
             </div>
             <div class="col-12 col-md-6">
@@ -40,30 +42,40 @@
             </div>
           </a>
           <% }); %>
-          <% if(blogs.length === 0) { %>
-          <div style="text-align:center; padding:60px; color:#999;">
-            <p>No hay artículos publicados aún.</p>
+
+          <div id="sinResultados" style="display:none; text-align:center; padding:60px; color:#999;">
+            <i class="ph ph-magnifying-glass" style="font-size:40px; display:block; margin-bottom:12px;"></i>
+            No hay artículos en esta categoría.
           </div>
-          <% } %>
         </div>
 
+        <!-- Sidebar -->
         <div class="col-12 col-lg-4 pl-55">
           <div class="cate-block mt-40">
             <div class="heading7">Categorías</div>
             <div class="list-nav mt-16">
-              <div class="nav-item bora-8 flex-between p-12 pointer text-button text-secondary active">Conciliación</div>
-              <div class="nav-item bora-8 flex-between p-12 pointer text-button text-secondary">Arbitraje</div>
-              <div class="nav-item bora-8 flex-between p-12 pointer text-button text-secondary">Legal</div>
-              <div class="nav-item bora-8 flex-between p-12 pointer text-button text-secondary">Opinión</div>
+              <div class="nav-item-cat bora-8 flex-between p-12 pointer text-button text-secondary active" data-cat="Todos" onclick="filtrarBlogs(this)">
+                Todos <i class="ph-bold ph-caret-right hidden"></i>
+              </div>
+              <div class="nav-item-cat bora-8 flex-between p-12 pointer text-button text-secondary" data-cat="Conciliación" onclick="filtrarBlogs(this)">
+                Conciliación <i class="ph-bold ph-caret-right hidden"></i>
+              </div>
+              <div class="nav-item-cat bora-8 flex-between p-12 pointer text-button text-secondary" data-cat="Arbitraje" onclick="filtrarBlogs(this)">
+                Arbitraje <i class="ph-bold ph-caret-right hidden"></i>
+              </div>
+              <div class="nav-item-cat bora-8 flex-between p-12 pointer text-button text-secondary" data-cat="Legal" onclick="filtrarBlogs(this)">
+                Legal <i class="ph-bold ph-caret-right hidden"></i>
+              </div>
             </div>
           </div>
+
           <div class="recent-post-block mt-40">
             <div class="recent-post-heading heading7">Publicaciones Recientes</div>
             <div class="list-recent-post mt-16">
               <% blogs.slice(0,3).forEach(blog => { %>
               <div class="recent-post-item d-flex item-start gap-16 mt-16">
                 <a class="item-img" href="#!">
-                  <img src="/uploads/blogs/<%= blog.imagen %>" alt="<%= blog.titulo %>" style="width:80px; height:80px; object-fit:cover; border-radius:8px; flex-shrink:0;">
+                  <img src="<%= blog.imagen %>" alt="<%= blog.titulo %>" style="width:80px; height:80px; object-fit:cover; border-radius:8px; flex-shrink:0;">
                 </a>
                 <div class="item-infor">
                   <div class="item-date flex-item-center">
@@ -77,9 +89,36 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
   <a class="scroll-to-top-btn" href="#header"><i class="ph-bold ph-caret-up"></i></a>
   <div class="pb-100"></div>
 </div>
+
+<style>
+  .nav-item-cat { cursor: pointer; transition: .2s; }
+  .nav-item-cat:hover { background: #f0f4f8; }
+  .nav-item-cat.active { background: #e8f4ff; color: #03a7ff; font-weight: 700; }
+  .blog-filtrable { transition: opacity .25s; }
+</style>
+
+<script>
+function filtrarBlogs(navEl) {
+  document.querySelectorAll('.nav-item-cat').forEach(n => n.classList.remove('active'));
+  navEl.classList.add('active');
+
+  const cat = navEl.getAttribute('data-cat');
+  const items = document.querySelectorAll('.blog-filtrable');
+  let visibles = 0;
+
+  items.forEach(function(item) {
+    const coincide = cat === 'Todos' || item.getAttribute('data-categoria') === cat;
+    item.style.display = coincide ? '' : 'none';
+    if (coincide) visibles++;
+  });
+
+  document.getElementById('sinResultados').style.display = visibles === 0 ? 'block' : 'none';
+}
+</script>
